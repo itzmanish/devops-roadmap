@@ -12,7 +12,7 @@ It should have
 - [ ] Two bastion machines (one per AZ). (Public subnet)
 - [ ] Three service machines(2+1 AZ). The service box should be in the private subnet.
 - [ ] Attach 8 GB extra EBS volume to the service box.
-- [ ] One rds(my-sql/postgres).
+- [x] One rds(my-sql/postgres).
 - [ ] One S3 bucket. Create two users one with read-access and the other with read+write-access to the bucket.
 
 The service boxes, RDS should be in the private subnet.

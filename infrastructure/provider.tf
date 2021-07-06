@@ -23,7 +23,7 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Environment = "test"
+      Environment = "${var.env}"
       Owner       = "Manish"
       Project     = "devops-roadmap"
     }
