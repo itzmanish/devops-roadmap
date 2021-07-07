@@ -6,7 +6,7 @@ module "network" {
   vpc_cidr             = var.vpc_cidr_block
   public_subnet_count  = var.bastion_instance_count
   private_subnet_count = var.service_instance_count
-  azs                  = data.aws_availability_zones.available.names
+  azs                  = length(var.azs) != 0 ? var.azs : data.aws_availability_zones.available.names
 }
 
 module "rds" {
@@ -31,13 +31,14 @@ module "instance" {
   bastion_instance_name   = "${var.namespace}-bastion"
   service_instance_name   = "${var.namespace}-service"
   ami_id                  = var.instance_ami_id != "" ? var.instance_ami_id : data.aws_ami.ubuntu.id
+  instance_type           = var.instance_type
   public_security_groups  = [module.network.bastion_sg_id]
   private_security_groups = [module.network.service_sg_id]
   public_subnet_ids       = module.network.public_sn_ids
   private_subnet_ids      = module.network.private_sn_ids
   bastion_host_count      = var.bastion_instance_count
   service_host_count      = var.service_instance_count
-  extra_storage_azs       = length(var.extra_storage_azs) != 0 ? var.extra_storage_azs : data.aws_availability_zones.available.names
+  extra_storage_azs       = length(var.azs) != 0 ? var.azs : data.aws_availability_zones.available.names
   key_name                = aws_key_pair.master.key_name
 
   depends_on = [

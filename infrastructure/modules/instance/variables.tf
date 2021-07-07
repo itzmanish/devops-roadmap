@@ -9,9 +9,9 @@ variable "service_instance_name" {
 }
 
 variable "instance_type" {
-  description = "Type of instance. Default: t2-micro"
+  description = "Type of instance. Default: t2.micro"
   type        = string
-  default     = "t2-micro"
+  default     = "t2.micro"
 }
 
 variable "ami_id" {

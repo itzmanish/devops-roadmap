@@ -8,7 +8,7 @@ It should have
 
 - [x] Internet Gateway
 - [x] NAT.
-- [ ] Application Loadbalancer.
+- [x] Application Loadbalancer.
 - [x] Two bastion machines (one per AZ). (Public subnet)
 - [x] Three service machines(2+1 AZ). The service box should be in the private subnet.
 - [x] Attach 8 GB extra EBS volume to the service box.
@@ -17,6 +17,13 @@ It should have
 
 The service boxes, RDS should be in the private subnet.
 Use the minimum size of the box and RDS.
+
+---
+
+Note: If you are selecting ap-south region and instance type t2.micro then azs must be set manually to ["ap-south-1a", "ap-south-1b"] only.
+Because ap-south-1c doesn't support ec2 instance type t2.micro.
+
+---
 
 **Expectations**
 

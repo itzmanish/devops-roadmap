@@ -22,12 +22,23 @@ variable "vpc_cidr_block" {
   default     = "172.36.0.0/16"
 }
 
+variable "azs" {
+  description = "Availability zones to create subnet and instances in."
+  type        = list(string)
+  default     = []
+}
+
 ##################################
 # Instances configuration variables
 ##################################
 variable "instance_ami_id" {
   description = "AMI ID for bastion and service instances."
   type        = string
+}
+variable "instance_type" {
+  description = "Type of instance for bastion and service instances."
+  type        = string
+  default     = "t2.micro"
 }
 
 variable "instance_public_key" {
