@@ -45,6 +45,22 @@ module "instance" {
   ]
 }
 
+module "alb" {
+  source = "./modules/loadbalancer"
+
+  lb_name      = "${var.namespace}-alb"
+  vpc_id       = module.network.vpc_id
+  lb_tg_name   = "${var.namespace}-tg-lb"
+  instance_ids = module.instance.service_instance_ids
+  lb_sg_ids    = [module.network.lb_sg_id]
+  subnets      = module.network.public_sn_ids
+
+  depends_on = [
+    module.network,
+    module.instance
+  ]
+
+}
 
 resource "tls_private_key" "master" {
   algorithm = "RSA"
