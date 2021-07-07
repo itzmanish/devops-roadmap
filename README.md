@@ -9,9 +9,9 @@ It should have
 - [x] Internet Gateway
 - [x] NAT.
 - [ ] Application Loadbalancer.
-- [ ] Two bastion machines (one per AZ). (Public subnet)
-- [ ] Three service machines(2+1 AZ). The service box should be in the private subnet.
-- [ ] Attach 8 GB extra EBS volume to the service box.
+- [x] Two bastion machines (one per AZ). (Public subnet)
+- [x] Three service machines(2+1 AZ). The service box should be in the private subnet.
+- [x] Attach 8 GB extra EBS volume to the service box.
 - [x] One rds(my-sql/postgres).
 - [ ] One S3 bucket. Create two users one with read-access and the other with read+write-access to the bucket.
 

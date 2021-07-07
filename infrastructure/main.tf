@@ -25,3 +25,40 @@ module "rds" {
     module.network
   ]
 }
+
+module "instance" {
+  source                  = "./modules/instance"
+  bastion_instance_name   = "${var.namespace}-bastion"
+  service_instance_name   = "${var.namespace}-service"
+  ami_id                  = var.instance_ami_id != "" ? var.instance_ami_id : data.aws_ami.ubuntu.id
+  public_security_groups  = [module.network.bastion_sg_id]
+  private_security_groups = [module.network.service_sg_id]
+  public_subnet_ids       = module.network.public_sn_ids
+  private_subnet_ids      = module.network.private_sn_ids
+  bastion_host_count      = var.bastion_instance_count
+  service_host_count      = var.service_instance_count
+  extra_storage_azs       = length(var.extra_storage_azs) != 0 ? var.extra_storage_azs : data.aws_availability_zones.available.names
+  key_name                = aws_key_pair.master.key_name
+
+  depends_on = [
+    module.network
+  ]
+}
+
+
+resource "tls_private_key" "master" {
+  algorithm = "RSA"
+  rsa_bits  = 4096
+}
+
+resource "aws_key_pair" "master" {
+  key_name   = "${var.namespace}-master-key"
+  public_key = var.instance_public_key != "" ? var.instance_public_key : tls_private_key.master.public_key_openssh
+}
+
+
+resource "local_file" "private_key" {
+  sensitive_content = tls_private_key.master.private_key_pem
+  filename          = format("%s/%s/%s", "/home/manish", ".ssh", "tf-master.pem")
+  file_permission   = "0600"
+}
