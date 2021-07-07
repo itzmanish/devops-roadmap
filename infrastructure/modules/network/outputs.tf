@@ -24,17 +24,6 @@ output "lb_sg_id" {
   description = "Id of security group for load balancer"
   value       = aws_security_group.allow_http_lb.id
 }
-
-output "internet_gateway_id" {
-  description = "ID of internet gateway"
-  value       = aws_internet_gateway.igw.id
-}
-
-output "nat_gateway_id" {
-  description = "ID of NAT gateway"
-  value       = aws_nat_gateway.gw.id
-}
-
 output "public_sn_ids" {
   description = "Ids of private subnet"
   value       = aws_subnet.public_sn.*.id
