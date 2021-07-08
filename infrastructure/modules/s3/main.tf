@@ -1,5 +1,7 @@
 resource "aws_s3_bucket" "main" {
-  bucket = var.bucket
+  bucket        = var.bucket
+  force_destroy = true
+
   versioning {
     enabled = var.enable_versioning
   }
