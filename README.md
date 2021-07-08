@@ -13,7 +13,7 @@ It should have
 - [x] Three service machines(2+1 AZ). The service box should be in the private subnet.
 - [x] Attach 8 GB extra EBS volume to the service box.
 - [x] One rds(my-sql/postgres).
-- [ ] One S3 bucket. Create two users one with read-access and the other with read+write-access to the bucket.
+- [x] One S3 bucket. Create two users one with read-access and the other with read+write-access to the bucket.
 
 The service boxes, RDS should be in the private subnet.
 Use the minimum size of the box and RDS.
@@ -27,8 +27,8 @@ Because ap-south-1c doesn't support ec2 instance type t2.micro.
 
 **Expectations**
 
-- The code can be deployed on any region and adheres to its availability zones
-- The same templates can be used for multiple environments.
+- [x] The code can be deployed on any region and adheres to its availability zones
+- [x] The same templates can be used for multiple environments.
 - Try to understand the difference between ALB, NLB and Classic Load Balancer.
 
 ---

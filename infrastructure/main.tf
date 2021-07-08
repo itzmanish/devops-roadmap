@@ -63,6 +63,14 @@ module "alb" {
 
 }
 
+module "s3" {
+  source = "./modules/s3"
+
+  bucket_namespace = "${var.namespace}-s3-bucket"
+  bucket           = "docker-registry-tf"
+
+}
+
 resource "tls_private_key" "master" {
   algorithm = "RSA"
   rsa_bits  = 4096
