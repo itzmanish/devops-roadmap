@@ -15,7 +15,8 @@ def get_private_ips(ec2_ob, fv):
     f = {"Name": "tag:Type", "Values": [fv]}
     hosts = []
     for instance in ec2_ob.instances.filter(Filters=[f]):
-        hosts.append(instance.private_ip_address)
+        if instance.private_ip_address != None:
+            hosts.append(instance.private_ip_address)
 
     return hosts
 
@@ -24,7 +25,8 @@ def get_public_ips(ec2_ob, fv):
     f = {"Name": "tag:Type", "Values": [fv]}
     hosts = []
     for instance in ec2_ob.instances.filter(Filters=[f]):
-        hosts.append(instance.public_ip_address)
+        if instance.public_ip_address != None:
+            hosts.append(instance.public_ip_address)
 
     return hosts
 
