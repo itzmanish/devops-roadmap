@@ -67,7 +67,7 @@ module "s3" {
   source = "./modules/s3"
 
   bucket_namespace = "${var.namespace}-s3-bucket"
-  bucket           = "docker-registry-tf"
+  bucket           = var.s3_bucket_name
 
 }
 

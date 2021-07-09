@@ -96,3 +96,9 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+variable "s3_bucket_name"{
+  description = "Name of s3 bucket"
+  type = string
+  default = "docker-registry-tf"
+}
