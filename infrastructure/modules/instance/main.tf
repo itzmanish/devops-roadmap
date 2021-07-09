@@ -16,7 +16,8 @@ resource "aws_instance" "bastion" {
   key_name        = var.key_name
 
   tags = {
-    Name = "${var.bastion_instance_name}_${count.index}"
+    Name = "${var.bastion_instance_name}_${count.index}",
+    "Type" = "bastion"
   }
 }
 
@@ -30,6 +31,7 @@ resource "aws_instance" "service" {
 
   tags = {
     Name = "${var.service_instance_name}_${count.index}"
+    "Type"  ="service"
   }
 
 }

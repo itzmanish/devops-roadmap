@@ -1,4 +1,32 @@
 
+resource "aws_security_group" "allow_docker_registry_lb" {
+  name        = "allow_docker_registry_lb"
+  description = "Allow docker registry port for load balancer"
+  vpc_id      = aws_vpc.main.id
+
+  ingress {
+    description      = "Allow http port"
+    from_port        = 80
+    to_port          = 5000
+    protocol         = "tcp"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  egress {
+    from_port        = 0
+    to_port          = 0
+    protocol         = "-1"
+    cidr_blocks      = ["0.0.0.0/0"]
+    ipv6_cidr_blocks = ["::/0"]
+  }
+
+  tags = {
+    Name = "${var.namespace}-docker-registry-sg"
+  }
+  depends_on = [aws_vpc.main]
+}
+
 resource "aws_security_group" "allow_http_lb" {
   name        = "allow_lb_http"
   description = "Allow http for load balancer"
@@ -93,6 +121,14 @@ resource "aws_security_group" "allow_ssh_internal" {
     security_groups = [aws_security_group.allow_http_lb.id]
   }
 
+  ingress {
+    description     = "allow docker registry request from lb"
+    from_port       = 5000
+    to_port         = 5000
+    protocol        = "tcp"
+    security_groups = [aws_security_group.allow_docker_registry_lb.id]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
@@ -102,7 +138,7 @@ resource "aws_security_group" "allow_ssh_internal" {
   }
 
   tags = {
-    Name = "${var.namespace}-http-lb-sg"
+    Name = "${var.namespace}-ssh-internal-sg"
   }
   depends_on = [aws_security_group.allow_http_lb, aws_security_group.allow_ssh]
 }
