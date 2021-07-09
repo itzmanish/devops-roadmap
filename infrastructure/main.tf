@@ -53,7 +53,7 @@ module "alb" {
   vpc_id       = module.network.vpc_id
   lb_tg_name   = "${var.namespace}-tg-lb"
   instance_ids = module.instance.service_instance_ids
-  lb_sg_ids    = [module.network.lb_sg_id]
+  lb_sg_ids    = [module.network.docker_registry_lb_sg_id]
   subnets      = module.network.public_sn_ids
 
   depends_on = [

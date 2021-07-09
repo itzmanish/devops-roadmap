@@ -20,9 +20,9 @@ output "rds_sg_id" {
   value       = aws_security_group.rds_sg_internal.id
 }
 
-output "lb_sg_id" {
+output "docker_registry_lb_sg_id" {
   description = "Id of security group for load balancer"
-  value       = aws_security_group.allow_http_lb.id
+  value       = aws_security_group.allow_docker_registry_lb.id
 }
 output "public_sn_ids" {
   description = "Ids of private subnet"
