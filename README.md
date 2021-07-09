@@ -29,7 +29,7 @@ Because ap-south-1c doesn't support ec2 instance type t2.micro.
 
 - [x] The code can be deployed on any region and adheres to its availability zones
 - [x] The same templates can be used for multiple environments.
-- Try to understand the difference between ALB, NLB and Classic Load Balancer.
+- [ ] Try to understand the difference between ALB, NLB and Classic Load Balancer.
 
 ---
 
@@ -37,10 +37,10 @@ Because ap-south-1c doesn't support ec2 instance type t2.micro.
 
 ### Docker Registry
 
-- [ ] Create a docker registry backed by S3. The docker registry should run on the docker container.
+- [x] Create a docker registry backed by S3. The docker registry should run on the docker container.
 - [ ] Deploy the Docker registry on three of the service box.
 - [ ] The registry should be reachable via the ALB.
-- [ ] Provision the docker registry by Ansible.
+- [x] Provision the docker registry by Ansible.
 
 ### Application Provisioning
 

@@ -1,0 +1,76 @@
+---
+- name: Install required system packages
+  apt:
+    state: latest
+    update_cache: yes
+    pkg:
+      - software-properties-common
+      - python3-pip
+      - virtualenv
+      - python3-setuptools
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - gnupg
+      - lsb-release
+
+- name: Add Docker GPG apt Key
+  ansible.builtin.apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    state: present
+
+- name: Add Docker Repository
+  ansible.builtin.apt_repository:
+    repo: deb https://download.docker.com/linux/ubuntu focal stable
+    state: present
+    filename: docker
+
+- name: install docker
+  apt:
+    state: latest
+    update_cache: yes
+    pkg:
+      - docker-ce
+      - docker-ce-cli
+      - containerd.io
+
+- name: Install Docker Module for Python
+  pip:
+    name: docker
+
+- name: Pull Docker Registry image
+  docker_image:
+    name: "registry:2"
+    source: pull
+
+- name: ansible create directory example
+  file:
+    path: /docker-registry
+    state: directory
+
+# - name: Create user and password for http simple authentication
+#   htpasswd:
+#     path: /docker-registry/htpasswd
+#     name: "{{ name }}"
+#     password: "{{ password }}"
+#     mode: 0640
+
+- name: Create registry containers
+  docker_container:
+    name: "{{ container_name }}"
+    image: registry:2
+    restart: yes
+    state: present
+    volumes:
+      - /docker-registry:/data
+    ports:
+      - "5000:5000"
+    env:
+      REGISTRY_STORAGE: s3
+      REGISTRY_STORAGE_S3_REGION: "{{ s3_region }}"
+      REGISTRY_STORAGE_S3_BUCKET: "{{ s3_registry_bucket }}"
+      REGISTRY_STORAGE_S3_ENCRYPT: "false"
+      REGISTRY_STORAGE_S3_SECURE: "true"
+      REGISTRY_STORAGE_S3_V4AUTH: "true"
+      REGISTRY_STORAGE_S3_CHUNKSIZE: "5242880"
+      REGISTRY_STORAGE_S3_ROOTDIRECTORY: "/image-registry"
