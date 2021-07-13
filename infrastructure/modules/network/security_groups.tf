@@ -75,6 +75,13 @@ resource "aws_security_group" "allow_ssh_internal" {
     protocol        = "tcp"
     security_groups = [aws_security_group.allow_docker_registry_lb.id]
   }
+  ingress {
+    description     = "allow docker registry debug health request from lb"
+    from_port       = 5001
+    to_port         = 5001
+    protocol        = "tcp"
+    security_groups = [aws_security_group.allow_docker_registry_lb.id]
+  }
 
   egress {
     from_port        = 0

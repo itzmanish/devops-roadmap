@@ -32,14 +32,14 @@ output "s3_users" {
   value       = module.s3.users
 }
 
-output "s3_primary_user_credential" {
+output "s3_rw_user_credential" {
   description = "s3 rw user credential"
-  value       = module.s3.primary_user_credential
+  value       = module.s3.rw_user_credential
   sensitive   = true
 }
 
-output "s3_secondary_user_credential" {
+output "s3_ronly_user_credential" {
   description = "s3 read only user credential"
-  value       = module.s3.secondary_user_credential
+  value       = module.s3.ronly_user_credential
   sensitive   = true
 }

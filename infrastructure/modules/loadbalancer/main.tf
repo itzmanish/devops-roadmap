@@ -7,7 +7,8 @@ resource "aws_lb_target_group" "docker_registry" {
   health_check {
     enabled             = true
     matcher             = "200"
-    path                = "/health"
+    path                = "/debug/health"
+    port                = 5001
     interval            = 15
     timeout             = 3
     healthy_threshold   = 2
