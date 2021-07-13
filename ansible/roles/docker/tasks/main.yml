@@ -48,29 +48,44 @@
     path: /docker-registry
     state: directory
 
-# - name: Create user and password for http simple authentication
-#   htpasswd:
-#     path: /docker-registry/htpasswd
-#     name: "{{ name }}"
-#     password: "{{ password }}"
-#     mode: 0640
-
 - name: Create registry containers
   docker_container:
     name: "{{ container_name }}"
     image: registry:2
     restart: yes
-    state: present
+    state: started
     volumes:
       - /docker-registry:/data
     ports:
-      - "5000:5000"
+      - "{{ registry_port }}:5000"
+      - "5001:5001"
     env:
       REGISTRY_STORAGE: s3
       REGISTRY_STORAGE_S3_REGION: "{{ s3_region }}"
       REGISTRY_STORAGE_S3_BUCKET: "{{ s3_registry_bucket }}"
+      REGISTRY_STORAGE_S3_ACCESSKEY: "{{ lookup('env', 'S3_ACCESSKEY') }}"
+      REGISTRY_STORAGE_S3_SECRETKEY: "{{ lookup('env', 'S3_SECRETKEY') }}"
       REGISTRY_STORAGE_S3_ENCRYPT: "false"
       REGISTRY_STORAGE_S3_SECURE: "true"
       REGISTRY_STORAGE_S3_V4AUTH: "true"
       REGISTRY_STORAGE_S3_CHUNKSIZE: "5242880"
       REGISTRY_STORAGE_S3_ROOTDIRECTORY: "/image-registry"
+      REGISTRY_HTTP_DEBUG_ADDR: "0.0.0.0:5001"
+
+- name: "Validating the port is open"
+  wait_for:
+    host: "localhost"
+    port: "{{registry_port}}" # for node Update it later"
+    delay: 10
+    timeout: 30
+    state: started
+    msg: "Registry container is not running"
+
+- name: "Check registry response"
+  uri:
+    url: "http://localhost:{{registry_port}}/"
+
+- name: "Check registry health response"
+  uri:
+    url: "http://localhost:5001/debug/health"
+  tags: "health"
