@@ -38,9 +38,21 @@ Because ap-south-1c doesn't support ec2 instance type t2.micro.
 ### Docker Registry
 
 - [x] Create a docker registry backed by S3. The docker registry should run on the docker container.
-- [ ] Deploy the Docker registry on three of the service box.
-- [ ] The registry should be reachable via the ALB.
+- [x] Deploy the Docker registry on three of the service box.
+- [x] The registry should be reachable via the ALB.
 - [x] Provision the docker registry by Ansible.
+
+---
+
+Note:
+
+```bash
+export S3_ACCESSKEY='get access key credential of rw user from terraform output'
+export S3_SECRETKEY='get secret key credential of rw user from terraform output'
+ansible-playbook -i ec2-hosts.py lab.yml -v
+```
+
+---
 
 ### Application Provisioning
 
@@ -112,3 +124,7 @@ Docker
 [https://dockerlabs.collabnix.com/workshop/docker/](https://dockerlabs.collabnix.com/workshop/docker/)
 
 [https://dockerlabs.collabnix.com/intermediate/workshop/](https://dockerlabs.collabnix.com/intermediate/workshop/)
+
+```
+
+```
